@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.yhd.dao.FriendMapper">
+    <select id="getFriendByUser" parameterType="String" resultType="cn.yhd.bean.Friend">
+        select * from demo_friend WHERE username = #{username} AND status = 1
+    </select>
+    <select id="getReqByUser" parameterType="String" resultType="cn.yhd.bean.Friend">
+        select * from demo_friend WHERE friendname = #{username} AND status = 0
+    </select>
+    <select id="addFriend" parameterType="cn.yhd.bean.Friend">
+        INSERT INTO demo_friend (username,friendname) VALUES (#{username},#{friendname})
+    </select>
+    <select id="deleteFriend" parameterType="cn.yhd.bean.Friend">
+        DELETE FROM demo_friend WHERE username = #{username} AND friendname = #{friendname}
+    </select>
+    <select id="clearFriend" parameterType="String">
+        DELETE FROM demo_friend WHERE username = #{name} or friendname = #{name}
+    </select>
+    <select id="updateFriend" parameterType="cn.yhd.bean.Friend">
+        UPDATE demo_friend SET status = #{status} WHERE username = #{username} AND friendname = #{friendname}
+    </select>
+</mapper>

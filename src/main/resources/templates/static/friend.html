@@ -6,39 +6,63 @@
     <link rel="stylesheet" th:href="@{~/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}">
     <script type="text/javascript" th:src="@{~/js/jquery.min.js}"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            if(window.location.pathname!="/friend")window.location.href = "/friend";
+        }
+        $(document).ready(function(){
+            $.get("/req",
+                function (data) {
+                    $('#panel-req').html(data);
+                });
+            $.get("/flist",
+                function (data) {
+                    $('#panel-flist').html(data);
+                });
+        });
+    </script>
 </head>
 <body>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">好友列表</h3>
     </div>
-    <div th:each="user : ${list}" class="panel-body">
-        <tr>
-            <td th:text="${user.username}"></td>
-            <td th:text="${user.password}"></td>
-        </tr>
+    <div id="panel-flist">
     </div>
 </div>
 
+
 <div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <input class="input-find-user" type="text"/>
+            <button type="button" class="btn btn-success search">用户搜索</button>
+        </h3>
+    </div>
+    <div id="panel-search">
+    </div>
+</div>
+
+<div class="panel panel-danger">
     <div class="panel-heading">
         <h3 class="panel-title">好友请求</h3>
     </div>
-    <div th:each="user : ${list}" class="panel-body">
-        <div class="panel-friend">
-            <div  class="friend" th:utext="${user.username}"></div>
-            <div class="f-button">
-                <button  style="float: right" type="button" class="btn btn-danger">拒绝</button>
-                <button  style="float: right" type="button" class="btn btn-success">同意</button>
-            </div>
-        </div>
+    <div id="panel-req">
     </div>
 </div>
+
+
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("button").click(function(){
-            var friend = $(this).parent().parent().find('div[class*=friend]');
-            alert(friend.html());
+    $(document).ready(function () {
+        $(".search").click(function () {
+            var inputVal = $(this).parent().find('input[class*=input-find-user]').val();
+            $.post("/search",
+                {
+                    uname: inputVal
+                },
+                function (data, status) {
+                    $('#panel-search').html(data);
+                });
         });
     });
 </script>

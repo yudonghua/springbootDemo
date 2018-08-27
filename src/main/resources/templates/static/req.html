@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:each="user : ${list_req}" class="panel-body">
+    <div class="panel-friend">
+        <div class="req-friend" style="float: left" th:text="${user.username}"></div>
+        <div class="f-button" style="float: right">
+            <button style="float: right" type="button" class="btn btn-danger refuse">拒绝</button>
+            <button style="float: right" type="button" class="btn btn-success allow">同意</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".refuse").click(function () {
+            var inputVal = $(this).parent().parent().find('div[class*=req-friend]').html();
+            $.post("/delete/friend",
+                {
+                    fname: inputVal
+                },
+                function (data, status) {
+                    alert("已拒绝");
+                    window.location.href = "/friend";
+                });
+        });
+        $(".allow").click(function () {
+            var inputVal = $(this).parent().parent().find('div[class*=req-friend]').html();
+            $.post("/allow/friend",
+                {
+                    fname: inputVal
+                },
+                function (data, status) {
+                    alert("已添加");
+                    window.location.href = "/friend";
+                });
+        });
+    });
+</script>
+</html>

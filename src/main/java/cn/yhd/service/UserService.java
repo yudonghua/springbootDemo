@@ -1,5 +1,6 @@
 package cn.yhd.service;
 
+import cn.yhd.bean.Friend;
 import cn.yhd.bean.User;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,11 @@ public interface UserService {
     void addUser(User user);
     User getUser(String username);
     List<User> getAllUser();
+    List<User> getLikeUser(String username);
+    List<Friend> getFriendByUser(String username);
+    List<Friend> getReqByUser(String username);
+    void addFriend(Friend friend);
+    void deleteFriend(Friend friend);
+    void deleteUser(String username);
+    void allowFriend(Friend friend);
 }
