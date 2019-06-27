@@ -7,6 +7,7 @@ import cn.yhd.dao.UserMapper;
 import cn.yhd.entity.TbUser;
 import cn.yhd.entity.TbUserExample;
 import cn.yhd.service.ITbUserService;
+import cn.yhd.service.RedisService;
 import cn.yhd.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,13 @@ public class BootdemoApplicationTests {
 	private UserService userService;
 	@Autowired
 	private ITbUserService tbUserService;
+	@Autowired
+	private RedisService redisService;
+	@Test
+	public void testRredis() {
+		redisService.set("redis","one");
+		System.out.println(redisService.get("aa"));
+	}
 	@Test
 	public void test() {
 		TbUser user = new TbUser();
