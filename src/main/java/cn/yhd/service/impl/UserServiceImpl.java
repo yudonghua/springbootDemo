@@ -55,6 +55,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteFriend(Friend friend) {
+
+
         friendMapper.deleteFriend(friend);
     }
 
