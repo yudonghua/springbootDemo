@@ -23,6 +23,7 @@ public class AdminController {
     public String login(Model model,HttpServletRequest req) {
         String username=(String)req.getSession().getAttribute("username");
         if(!ADMIN.equals(username)){
+
             return "/static/login";
         }
         model.addAttribute("list_user",userService.getAllUser());
