@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController {
     @Autowired
     private UserService userService;
+
     protected static final String ADMIN = "admin";
     @GetMapping("/admin")
     public String login(Model model,HttpServletRequest req) {
