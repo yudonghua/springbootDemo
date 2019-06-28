@@ -26,6 +26,7 @@ public class AdminController {
         if(!ADMIN.equals(username)){
 
             return "/static/login";
+
         }
         model.addAttribute("list_user",userService.getAllUser());
         return "/static/admin";
