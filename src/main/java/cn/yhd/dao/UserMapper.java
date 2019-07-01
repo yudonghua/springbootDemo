@@ -12,6 +12,7 @@ import java.util.List;
 public interface UserMapper {
     List<User> getAllUser();
     List<User> getLikeUser(String username);
+
     User getUser(String username);
 
 
