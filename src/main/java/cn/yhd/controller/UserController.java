@@ -109,6 +109,7 @@ public class UserController {
     }
     @GetMapping("/req")
     public String req(HttpServletRequest req,Model model) {
+
         String username=(String)req.getSession().getAttribute("username");
 //        String username="东东";
         model.addAttribute("list_req",userService.getReqByUser(username));
