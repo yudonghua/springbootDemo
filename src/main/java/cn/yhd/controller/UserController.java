@@ -118,6 +118,8 @@ public class UserController {
     public String getFriend(Model model,HttpServletRequest req) {
         String username=(String)req.getSession().getAttribute("username");
         if(username==null)return "/static/login";
+
+
         model.addAttribute("list_friend",userService.getFriendByUser(username));
         System.out.println(userService.getFriendByUser(username));
         return "/static/friend";
