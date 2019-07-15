@@ -20,6 +20,7 @@ public class AdminController {
     private UserService userService;
 
     protected static final String ADMIN = "admin";
+
     @GetMapping("/admin")
     public String login(Model model,HttpServletRequest req) {
         String username=(String)req.getSession().getAttribute("username");
