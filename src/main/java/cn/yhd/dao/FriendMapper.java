@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Mapper
 public interface FriendMapper {
-    //find123localaaa
+    //find123localaaaaaa
     List<Friend> getFriendByUser(String username);
     List<Friend> getReqByUser(String username);
     void addFriend(Friend friend);
