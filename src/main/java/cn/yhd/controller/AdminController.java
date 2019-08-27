@@ -3,14 +3,12 @@ package cn.yhd.controller;
 import cn.yhd.bean.Friend;
 import cn.yhd.bean.User;
 import cn.yhd.common.VerifyCode;
+import cn.yhd.config.TestConfig;
 import cn.yhd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +18,14 @@ public class AdminController {
     private UserService userService;
 
     protected static final String ADMIN = "admin";
+    @Autowired
+    private User user;
 
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return user.getUsername()+"---<<<"+user.getPassword();
+    }
     @GetMapping("/admin")
     public String login(Model model,HttpServletRequest req) {
         String username=(String)req.getSession().getAttribute("username");
