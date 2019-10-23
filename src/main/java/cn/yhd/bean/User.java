@@ -1,5 +1,8 @@
 package cn.yhd.bean;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * Created by PC on 2018/8/26.
  */
