@@ -6,6 +6,7 @@ import cn.yhd.dao.ITbUserMapper;
 import cn.yhd.dao.UserMapper;
 import cn.yhd.entity.TbUser;
 import cn.yhd.entity.TbUserExample;
+import cn.yhd.service.ICommonService;
 import cn.yhd.service.ITbUserService;
 import cn.yhd.service.RedisService;
 import cn.yhd.service.UserService;
@@ -30,6 +31,14 @@ public class BootdemoApplicationTests {
 	private ITbUserService tbUserService;
 	@Autowired
 	private RedisService redisService;
+	@Autowired
+	private ICommonService commonService;
+	@Test
+	public void testCommon() {
+		commonService.saveXxx(tbUserService,new TbUser());
+	}
+
+
 	@Test
 	public void testRredis() {
 		redisService.set("redis","one");

@@ -1,0 +1,107 @@
+package cn.yhd.utils;
+
+import cn.yhd.base.NotEmpty;
+import cn.yhd.base.NotNull;
+import com.alibaba.fastjson.JSON;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @Author: yuhuadong
+ * @Date: 2019/8/28 6:08 PM
+ * @Description:
+ */
+public class BeanDealUtils {
+    public static <T> List<T> copyList(List list,Class<T> clazz) {
+        if (CollectionUtils.isEmpty(list)) {
+            return new ArrayList();
+        }
+        return JSON.parseArray(JSON.toJSONString(list),clazz);
+    }
+    /**
+     * 当对象中存在list,BeanUtils无法转换
+     **/
+    public static <F,T> T copy(F f,Class<T> clazz) {
+        return JSON.parseObject(JSON.toJSONString(f), clazz);
+    }
+
+    public static <F,T> void getDiff(F fromA,F fromB,T targetA,T targetB) {
+        List<Field> fieldList = new ArrayList<>();
+        Class clazz = fromA.getClass();
+        while ( clazz != Object.class) {
+            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            clazz = clazz.getSuperclass();
+        }
+        for(Field field:fieldList){
+            try {
+                field.setAccessible(true);
+                if(field.get(fromA)==null||field.get(fromB)==null){
+                    continue;
+                }
+                if(!field.get(fromA).equals(field.get(fromB))){
+                    Field target = targetA.getClass().getDeclaredField(field.getName());
+                    try {
+                        target.setAccessible(true);
+                        target.set(targetA, field.get(fromA));
+                        target.set(targetB, field.get(fromB));
+                    } catch (Exception e) {
+                    }finally {
+                        target.setAccessible(false);
+                    }
+                }
+            } catch (Exception e) {
+            }finally {
+                field.setAccessible(false);
+            }
+        }
+    }
+
+    public static void valid(Object object) {
+        List<Field> fieldList = new ArrayList<>();
+        Class clazz = object.getClass();
+        while ( clazz != Object.class) {
+            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            clazz = clazz.getSuperclass();
+        }
+        for (Field field : fieldList) {
+            boolean notNull = field.isAnnotationPresent(NotNull.class);
+            boolean notEmpty = field.isAnnotationPresent(NotEmpty.class);
+            if (notNull) {
+                field.setAccessible(true);
+                try {
+                    Object o = field.get(object);
+                    if(o == null){
+                        NotNull nullName = field.getAnnotation(NotNull.class);
+                        String describe = nullName==null?field.getName():nullName.name();
+                        throw new IllegalArgumentException(describe + "can not be null");
+                    }
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("valid error");
+                }finally {
+                    field.setAccessible(false);
+                }
+            }
+            if (notEmpty) {
+                field.setAccessible(true);
+                try {
+                    Object o = field.get(object);
+                    if(StringUtils.isEmpty((String)o)){
+                        NotEmpty emptyName = field.getAnnotation(NotEmpty.class);
+                        String describe = emptyName==null?field.getName():emptyName.name();
+                        throw new IllegalArgumentException(describe + "can not be empty");
+                    }
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("valid error");
+                }finally {
+                    field.setAccessible(false);
+                }
+            }
+
+        }
+    }
+}
