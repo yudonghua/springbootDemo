@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -73,32 +74,43 @@ public class BeanDealUtils {
             boolean notEmpty = field.isAnnotationPresent(NotEmpty.class);
             if (notNull) {
                 field.setAccessible(true);
+                Object o;
                 try {
-                    Object o = field.get(object);
-                    if(o == null){
-                        NotNull nullName = field.getAnnotation(NotNull.class);
-                        String describe = nullName==null?field.getName():nullName.name();
-                        throw new IllegalArgumentException(describe + "can not be null");
-                    }
+                    o = field.get(object);
                 } catch (Exception e) {
                     throw new IllegalArgumentException("valid error");
                 }finally {
                     field.setAccessible(false);
                 }
+                if(o == null){
+                    NotNull nullName = field.getAnnotation(NotNull.class);
+                    String describe = nullName==null||"".equals(nullName.name())?field.getName():nullName.name();
+                    throw new IllegalArgumentException(describe + " can not be null");
+                }
             }
             if (notEmpty) {
                 field.setAccessible(true);
+                Object o;
                 try {
-                    Object o = field.get(object);
-                    if(StringUtils.isEmpty((String)o)){
-                        NotEmpty emptyName = field.getAnnotation(NotEmpty.class);
-                        String describe = emptyName==null?field.getName():emptyName.name();
-                        throw new IllegalArgumentException(describe + "can not be empty");
-                    }
+                    o = field.get(object);
                 } catch (Exception e) {
                     throw new IllegalArgumentException("valid error");
                 }finally {
                     field.setAccessible(false);
+                }
+                NotEmpty emptyName = field.getAnnotation(NotEmpty.class);
+                String describe = emptyName==null||"".equals(emptyName.name())?field.getName():emptyName.name();
+                if(o == null){
+                    throw new IllegalArgumentException(describe + " can not be null");
+                }
+                if(Collection.class.isAssignableFrom(o.getClass())){
+                    if(CollectionUtils.isEmpty((Collection)o)){
+                        throw new IllegalArgumentException(describe + " can not be empty");
+                    }
+                }else if(CharSequence.class.isAssignableFrom(o.getClass())){
+                    if(StringUtils.isEmpty((CharSequence)o)){
+                        throw new IllegalArgumentException(describe + " can not be empty");
+                    }
                 }
             }
 

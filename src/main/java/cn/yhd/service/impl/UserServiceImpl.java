@@ -1,10 +1,12 @@
 package cn.yhd.service.impl;
 
+import cn.yhd.base.NotNull;
 import cn.yhd.bean.Friend;
 import cn.yhd.bean.User;
 import cn.yhd.dao.FriendMapper;
 import cn.yhd.dao.UserMapper;
 import cn.yhd.service.UserService;
+import cn.yhd.utils.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +22,10 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private FriendMapper friendMapper;
 
+    @Valid
     @Override
-    public void addUser(User user){
-        userMapper.addUser(user);
+    public void addUser(@NotNull User user,@NotNull String aaa){
+//        userMapper.addUser(user);
     }
 
     @Override

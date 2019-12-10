@@ -1,7 +1,9 @@
 package cn.yhd.service;
 
+import cn.yhd.base.NotNull;
 import cn.yhd.bean.Friend;
 import cn.yhd.bean.User;
+import cn.yhd.utils.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
  */
 @Service
 public interface UserService {
-    void addUser(User user);
+    void addUser(User user,String aaa);
     User getUser(String username);
     List<User> getAllUser();
     List<User> getLikeUser(String username);

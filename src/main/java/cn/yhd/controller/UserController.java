@@ -4,6 +4,7 @@ import cn.yhd.bean.Friend;
 import cn.yhd.bean.User;
 import cn.yhd.common.VerifyCode;
 import cn.yhd.service.UserService;
+import cn.yhd.utils.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -20,7 +23,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
     @GetMapping("/VerifyCodeServlet")
     public void VerifyCodeServlet(HttpServletRequest req, HttpServletResponse response) throws IOException {
@@ -145,7 +148,14 @@ public class UserController {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        userService.addUser(user);
+//        userService.addUser(user);
         return "/static/login";
+    }
+//    @Valid
+    @GetMapping("/testvalid")
+    public String testvvv() {
+        System.out.println("dd");
+//        userService.addUser(new User());
+        return "/static/req";
     }
 }

@@ -1,6 +1,7 @@
 package cn.yhd;
 
 import cn.yhd.bean.Friend;
+import cn.yhd.bean.User;
 import cn.yhd.dao.FriendMapper;
 import cn.yhd.dao.ITbUserMapper;
 import cn.yhd.dao.UserMapper;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BootdemoApplicationTests {
@@ -25,7 +28,7 @@ public class BootdemoApplicationTests {
 	private UserMapper userMapper;
 	@Autowired
 	private ITbUserMapper tbUserMapper;
-	@Autowired
+	@Resource
 	private UserService userService;
 	@Autowired
 	private ITbUserService tbUserService;
@@ -36,6 +39,10 @@ public class BootdemoApplicationTests {
 	@Test
 	public void testCommon() {
 		commonService.saveXxx(tbUserService,new TbUser());
+	}
+	@Test
+	public void testad() {
+		userService.addUser(new User(),null);
 	}
 
 
