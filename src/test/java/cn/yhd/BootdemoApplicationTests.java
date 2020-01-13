@@ -5,12 +5,10 @@ import cn.yhd.bean.User;
 import cn.yhd.dao.FriendMapper;
 import cn.yhd.dao.ITbUserMapper;
 import cn.yhd.dao.UserMapper;
+import cn.yhd.entity.IllegalSelfie;
 import cn.yhd.entity.TbUser;
 import cn.yhd.entity.TbUserExample;
-import cn.yhd.service.ICommonService;
-import cn.yhd.service.ITbUserService;
-import cn.yhd.service.RedisService;
-import cn.yhd.service.UserService;
+import cn.yhd.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,13 +35,27 @@ public class BootdemoApplicationTests {
 	private RedisService redisService;
 	@Autowired
 	private ICommonService commonService;
+	@Autowired
+	private IllegalSelfieService illegalSelfieService;
 	@Test
 	public void testCommon() {
 		commonService.saveXxx(tbUserService,new TbUser());
 	}
 	@Test
 	public void testad() {
-		userService.addUser(new User(),null);
+		User user = new User();
+		user.setUsername("cc");
+		user.setPassword("cc");
+		user.setCreateTime(new Date());
+		userService.addUser(user);
+	}
+
+	@Test
+	public void testIllegal() {
+		IllegalSelfie illegalSelfie = new IllegalSelfie();
+		illegalSelfie.setAdminId(1L);
+		illegalSelfieService.insert(illegalSelfie);
+		System.out.println(illegalSelfieService.selectByCondition(illegalSelfie));
 	}
 
 

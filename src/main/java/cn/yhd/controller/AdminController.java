@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Controller
+@RequestMapping(path = {"/","/admin"})
 public class AdminController {
     private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
     @Autowired
@@ -54,33 +55,17 @@ public class AdminController {
         user.setUsername("username");
         return ResponseCodeUtils.getSuccessResponseModel(user);
     }
-    @GetMapping("/test")
+    @GetMapping(path = {"/test","/test1","/test2"})
     @ResponseBody
     @JsonView(JSONViewInterface.Video.ViewHot.class)
     public ResponeEntity test() {
         logger.info("test------");
-        normalTaskExecutor.execute(()->{
-            logger.info(Thread.currentThread().getName());
-            try {
-                Thread.sleep(10000000000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        normalExecutor.execute(()->{
-            logger.info(Thread.currentThread().getName());
-            try {
-                Thread.sleep(10000000000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
 //        VTopTableModel vTopTableModel = new VTopTableModel();
 //        vTopTableModel.setVtId(1L);
 //        vTopTableModel.setVtMid(1L);
-//        ResponeEntity responeEntity = new ResponeEntity();
-//        responeEntity.setErrorid(0);
-//        responeEntity.setErrordesc("操作成功");
+        ResponeEntity responeEntity = new ResponeEntity();
+        responeEntity.setErrorid(0);
+        responeEntity.setErrordesc("操作成功");
 //        responeEntity.setVdata(vTopTableModel);
         return new ResponeEntity();
     }

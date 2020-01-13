@@ -22,10 +22,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private FriendMapper friendMapper;
 
-    @Valid
     @Override
-    public void addUser(@NotNull User user,@NotNull String aaa){
-//        userMapper.addUser(user);
+    public void addUser(User user){
+        userMapper.addUser(user);
     }
 
     @Override

@@ -16,6 +16,6 @@
         select * from demo_user WHERE username like CONCAT('%',#{username},'%')
     </select>
     <select id="addUser" parameterType="cn.yhd.bean.User">
-        INSERT INTO demo_user (username,password) VALUES (#{username},#{password})
+        INSERT INTO demo_user (username,password,create_time) VALUES (#{username},#{password},#{createTime})
     </select>
 </mapper>

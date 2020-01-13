@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Service
 public interface UserService {
-    void addUser(User user,String aaa);
+    void addUser(User user);
     User getUser(String username);
     List<User> getAllUser();
     List<User> getLikeUser(String username);
