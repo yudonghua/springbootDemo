@@ -31,6 +31,37 @@ public class BeanDealUtils {
         return JSON.parseObject(JSON.toJSONString(f), clazz);
     }
 
+    public static void makeModel(Object object) {
+        List<Field> fieldList = new ArrayList<>();
+        Class clazz = object.getClass();
+        while ( clazz != Object.class) {
+            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            clazz = clazz.getSuperclass();
+        }
+        for (Field field : fieldList) {
+            field.setAccessible(true);
+            try {
+                if(String.class.isAssignableFrom(field.getType())){
+                    field.set(object,field.getName());
+                }else if(Number.class.isAssignableFrom(field.getType())){
+                    field.set(object, field.getType().getConstructor(String.class).newInstance("0"));
+                }else if(Boolean.class.isAssignableFrom(field.getType())){
+                    field.set(object, field.getType().getConstructor(String.class).newInstance("false"));
+                }else if(List.class.isAssignableFrom(field.getType())){
+                }else {
+                    field.set(object, field.getType().getConstructor().newInstance());
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException("makeModel error");
+            }finally {
+                field.setAccessible(false);
+            }
+
+        }
+    }
+
     public static <F,T> void getDiff(F fromA,F fromB,T targetA,T targetB) {
         List<Field> fieldList = new ArrayList<>();
         Class clazz = fromA.getClass();
