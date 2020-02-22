@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -78,6 +80,28 @@ public class AdminController {
 
         }
         model.addAttribute("list_user",userService.getAllUser());
+        return "/static/admin";
+    }
+    @PostMapping("/test")
+    public String test(@RequestBody User user,HttpServletRequest req) {
+        BufferedReader br = null;
+        try {
+            br = req.getReader();
+            String str = "";
+            String listString = "";
+            while ((str = br.readLine()) != null) {
+                listString += str;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String username=(String)req.getSession().getAttribute("username");
+        if(!ADMIN.equals(username)){
+
+            return "/static/login";
+
+        }
+//        model.addAttribute("list_user",userService.getAllUser());
         return "/static/admin";
     }
     @ResponseBody
